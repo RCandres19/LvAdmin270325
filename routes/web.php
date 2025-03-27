@@ -7,6 +7,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware(['role:admin'])->group(function () {
+    Route::get('/admin', function () {
+        return 'Bienvenido, administrador';
+    });
+});
+
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 //  Registro de usuario
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
