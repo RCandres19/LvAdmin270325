@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('id_finca')->nullable();
             $table->string('nombre', 60);
             $table->string('apellido', 60);
-            $table->enum('tipo_documento', ['CC', 'TI', 'PPT', 'PEP']);
+            $table->string('tipo_documento', 20);
             $table->string('documento', 255)->unique();
             $table->string('telefono', 20)->nullable();
             $table->string('correo', 100)->unique();
