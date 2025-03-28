@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -13,18 +13,22 @@ class AuthController extends Controller
     {
         return view('register');
     }
+
     public function loginForm()
     {
         return view('login');
     }
+
     public function logoutForm()
     {
         return view('logout');
     }
+
     public function meForm()
     {
         return view('me');
     }
+
     public function refreshForm()
     {
         return view('refresh');
@@ -42,7 +46,7 @@ class AuthController extends Controller
             'documento' => 'required|unique:usuarios',
             'telefono' => 'required|string|max:20',
             'correo'    => 'nullable|email|max:100|unique:usuarios',
-            'contraseña' => 'required|string|min:8|confirmed',    
+            'contraseña' => 'required|string|min:6|confirmed',    
         ]);
 
         $usuario = Usuario::create([
@@ -52,7 +56,7 @@ class AuthController extends Controller
             'documento' => $request->documento,
             'telefono' => $request->telefono,
             'correo' => $request->correo,
-            'contraseña' => password_hash($request->contraseña, PASSWORD_DEFAULT),
+            'contraseña' => Hash::make($request->contraseña), // Se usa bcrypt() a través de Hash::make()
         ]);
 
         return response()->json(['message' => 'Usuario registrado con éxito'], 201);
@@ -65,7 +69,7 @@ class AuthController extends Controller
     {
         $usuario = Usuario::where('documento', $request->documento)->first();
 
-        if (!$usuario || !password_verify($request->contraseña, $usuario->contraseña)) {
+        if (!$usuario || !Hash::check($request->contraseña, $usuario->contraseña)) {
             return response()->json(['error' => 'Credenciales inválidas'], 401);
         }
 
