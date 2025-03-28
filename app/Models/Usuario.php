@@ -12,12 +12,19 @@ class Usuario extends Authenticatable
 
     protected $table = 'usuarios'; // Nombre de la tabla en la BD
 
-    protected $fillable = ['nombre', 'email', 'password', 'rol', 'role_id'];
+    protected $fillable = 
+    [
+        'nombre', 
+        'apellido', 
+        'tipo_documento', 
+        'documento', 
+        'telefono', 
+        'correo'
+    ];
 
-    protected $hidden = ['password'];
+    protected $hidden = 
+    [
+        'contraseña'
+    ];
 
-    public function role()
-    {
-        return $this->belongsTo(Rol::class, 'role_id');
-    }
 }
