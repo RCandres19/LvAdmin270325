@@ -14,11 +14,11 @@ Route::middleware(['role:admin'])->group(function () {
 });
 
 //  Formularios de autenticación
-Route::get('/register', [AuthController::class, 'registerForm'])->name('register.form');
-Route::get('/login', [AuthController::class, 'loginForm'])->name('login.form');
-Route::get('/logout', [AuthController::class, 'logoutForm'])->name('logout.form');
-Route::get('/me', [AuthController::class, 'meForm'])->name('me.form');
-Route::get('/refresh', [AuthController::class, 'refreshForm'])->name('refresh.form');
+Route::get('/register', [AuthController::class, 'registerForm'])->name('register.view');
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login.view');
+Route::get('/logout', [AuthController::class, 'logoutForm'])->name('logout.view');
+Route::get('/me', [AuthController::class, 'meForm'])->name('me.view');
+Route::get('/refresh', [AuthController::class, 'refreshForm'])->name('refresh.view');
 
 //  Acciones de autenticación
 Route::post('/register', [AuthController::class, 'register'])->name('register');

@@ -4,30 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
     public function registerForm()
     {
-        return view('auth.register');
+        return view('register');
     }
     public function loginForm()
     {
-        return view('auth.login');
+        return view('login');
     }
     public function logoutForm()
     {
-        return view('auth.logout');
+        return view('logout');
     }
     public function meForm()
     {
-        return view('auth.me');
+        return view('me');
     }
     public function refreshForm()
     {
-        return view('auth.refresh');
+        return view('refresh');
     }
 
     /**
