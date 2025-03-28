@@ -9,6 +9,27 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+    public function registerForm()
+    {
+        return view('auth.register');
+    }
+    public function loginForm()
+    {
+        return view('auth.login');
+    }
+    public function logoutForm()
+    {
+        return view('auth.logout');
+    }
+    public function meForm()
+    {
+        return view('auth.me');
+    }
+    public function refreshForm()
+    {
+        return view('auth.refresh');
+    }
+
     /**
      * Registro de usuario
      */

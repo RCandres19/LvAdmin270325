@@ -25,7 +25,11 @@ class DatabaseSeeder extends Seeder
             'crear boletines',
             'editar boletines',
             'eliminar boletines',
-            'ver boletines'
+            'ver boletines',
+            'crear infomacion',
+            'editar infomacion',
+            'eliminar infomacion',
+            'ver infomacion'
         ];
 
         foreach ($permissions as $permiso) {
@@ -41,10 +45,13 @@ class DatabaseSeeder extends Seeder
 
         // Crear usuario administrador
         $admin = Usuario::firstOrCreate([
-            'document_number' => '12345678',
+            'documento' => '12345678',
             'nombre' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
+            'apellido' => 'nistrador',
+            'tipo_documento' => 'CC',
+            'telefono' => '1234567890',
+            'correo' => 'admin@example.com',
+            'contraseña' => password_hash('contraseña', PASSWORD_DEFAULT),
         ]);
 
         // Asignar el rol de admin al usuario

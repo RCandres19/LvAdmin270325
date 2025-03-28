@@ -13,19 +13,20 @@ Route::middleware(['role:admin'])->group(function () {
     });
 });
 
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-//  Registro de usuario
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+//  Formularios de autenticación
+Route::get('/register', [AuthController::class, 'registerForm'])->name('register.form');
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login.form');
+Route::get('/logout', [AuthController::class, 'logoutForm'])->name('logout.form');
+Route::get('/me', [AuthController::class, 'meForm'])->name('me.form');
+Route::get('/refresh', [AuthController::class, 'refreshForm'])->name('refresh.form');
 
-//  Inicio de sesión
+//  Acciones de autenticación
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-//  Cierre de sesión (solo para usuarios autenticados)
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('logout');
-
-//  Obtener usuario autenticado (solo para usuarios con sesión activa)
-Route::get('/me', [AuthController::class, 'me'])->middleware('auth:api')->name('me');
-
-//  Refrescar token (solo para usuarios autenticados)
-Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api')->name('refresh');
+//  Rutas protegidas con autenticación
+Route::middleware('auth:web')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/me', [AuthController::class, 'me'])->name('me');
+    Route::post('/refresh', [AuthController::class, 'refresh'])->name('refresh');
+});
