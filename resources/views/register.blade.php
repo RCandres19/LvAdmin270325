@@ -38,7 +38,8 @@
             <option value="CC">Cédula de Ciudadanía</option>
             <option value="TI">Tarjeta de Identidad</option>
             <option value="CE">Cédula de Extranjería</option>
-            <option value="Permiso de proteccion temporal ">PPT</option>
+            <option value="PEP">Permiso Especial de Permanencia</option>
+            <option value="PPT">Permiso de Proteccion Temporal</option>
         </select>
 
         <!-- Campo para el número de documento -->
