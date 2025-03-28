@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('telefono', 20)->nullable();
             $table->string('correo', 100)->unique();
             $table->text('token')->nullable();
-            $table->string('contraseña', 500);
+            $table->string('contraseña', 8);
             $table->integer('intentos_fallidos')->default(0);
             $table->string('bloqueado_hasta', 100)->nullable();
             $table->string('codigo_verificacion', 100)->nullable();

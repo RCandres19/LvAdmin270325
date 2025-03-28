@@ -16,21 +16,22 @@ class AuthController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'document_type' => 'required|string|max:50',
-            'document_number' => 'required|string|max:50|unique:usuarios,document_number',
-            'email' => 'required|email|unique:usuarios,email',
-            'password' => 'required|string|min:6|confirmed',
-            'role_id' => 'required|exists:roles,id'
+            'apellido' => 'required|string|max:100',
+            'tipo_documento' => 'required|in:CC,TI,PPT,PEP',
+            'documento' => 'required|unique:usuarios',
+            'telefono' => 'required|string|max:20',
+            'correo'    => 'nullable|email|max:100|unique:usuarios',
+            'contraseña' => 'required|string|min:8|confirmed',    
         ]);
 
         $usuario = Usuario::create([
             'nombre' => $request->nombre,
-            'document_type' => $request->document_type,
-            'document_number' => $request->document_number,
-            'email' => $request->email,
-            'password' => password_hash($request->password, PASSWORD_BCRYPT),
-            'rol' => 'usuario',
-            'role_id' => $request->role_id
+            'apellido' => $request->apellido,
+            'tipo_documento' => $request->tipo_documento,
+            'documento' => $request->documento,
+            'telefono' => $request->telefono,
+            'correo' => $request->correo,
+            'contraseña' => password_hash($request->contraseña, PASSWORD_DEFAULT),
         ]);
 
         return response()->json(['message' => 'Usuario registrado con éxito'], 201);
@@ -41,9 +42,9 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $usuario = Usuario::where('document_number', $request->document_number)->first();
+        $usuario = Usuario::where('documento', $request->documento)->first();
 
-        if (!$usuario || !password_verify($request->password, $usuario->password)) {
+        if (!$usuario || !password_verify($request->contraseña, $usuario->contraseña)) {
             return response()->json(['error' => 'Credenciales inválidas'], 401);
         }
 
