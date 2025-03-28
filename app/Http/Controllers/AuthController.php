@@ -42,7 +42,7 @@ class AuthController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:100',
             'apellido' => 'required|string|max:100',
-            'tipo_documento' => 'required|in:CC,TI,PPT,PEP',
+            'tipo_documento' => 'required|in:CC,TI,CE,PEP,PPT',
             'documento' => 'required|unique:usuarios',
             'telefono' => 'required|string|max:20',
             'correo'    => 'nullable|email|max:100|unique:usuarios',
