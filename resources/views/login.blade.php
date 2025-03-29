@@ -19,7 +19,7 @@
 
         <!-- Campo para el número de documento  -->
         <label>Número de Documento:</label>
-        <input type="text" name="document_number" required>
+        <input type="text" name="documento" required>
 
         <!-- Campo para la contraseña -->
         <label>Contraseña:</label>

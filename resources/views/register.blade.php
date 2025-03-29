@@ -42,6 +42,12 @@
             <option value="PPT">Permiso de Proteccion Temporal</option>
         </select>
 
+        <label for="role">Seleccionar Rol</label>
+        <select name="role" required>
+        <option value="admin">Administrador</option>
+        <option value="usuario">Usuario</option>
+        </select>
+
         <!-- Campo para el número de documento -->
         <label>Número de Documento:</label>
         <input type="text" name="documento" value="{{ old('document_number') }}" required>

@@ -59,8 +59,10 @@ class AuthController extends Controller
             'password' => Hash::make($request->password), // Se usa bcrypt() a través de Hash::make()
         ]);
 
-        return response()->json(['message' => 'Usuario registrado con éxito',
-            'usuario' => $usuario ], 201);
+        // Asignar rol con Spatie
+        $usuario->assignRole($request->role);
+
+        return redirect()->route('login.view')->with('success', 'Usuario registrado correctamente');
     }
 
     /**
@@ -68,6 +70,8 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        //dd($request->all());
+        
         $usuario = Usuario::where('documento', $request->documento)->first();
 
         if (!$usuario || !Hash::check($request->password, $usuario->password)) {
@@ -117,7 +121,8 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => JWTAuth::factory()->getTTL() * 60
+            'expires_in' => config('jwt.ttl') * 60,
+            'usuario' => auth('web')->user(),
         ]);
     }
 }
