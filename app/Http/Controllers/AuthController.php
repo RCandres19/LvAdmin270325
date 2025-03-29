@@ -46,7 +46,7 @@ class AuthController extends Controller
             'documento' => 'required|unique:usuarios',
             'telefono' => 'required|string|max:20',
             'correo'    => 'nullable|email|max:100|unique:usuarios',
-            'contraseña' => 'required|string|min:6|confirmed',    
+            'password' => 'required|string|min:6|confirmed',    
         ]);
 
         $usuario = Usuario::create([
@@ -56,10 +56,11 @@ class AuthController extends Controller
             'documento' => $request->documento,
             'telefono' => $request->telefono,
             'correo' => $request->correo,
-            'contraseña' => Hash::make($request->contraseña), // Se usa bcrypt() a través de Hash::make()
+            'password' => Hash::make($request->password), // Se usa bcrypt() a través de Hash::make()
         ]);
 
-        return response()->json(['message' => 'Usuario registrado con éxito'], 201);
+        return response()->json(['message' => 'Usuario registrado con éxito',
+            'usuario' => $usuario ], 201);
     }
 
     /**
@@ -69,7 +70,7 @@ class AuthController extends Controller
     {
         $usuario = Usuario::where('documento', $request->documento)->first();
 
-        if (!$usuario || !Hash::check($request->contraseña, $usuario->contraseña)) {
+        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             return response()->json(['error' => 'Credenciales inválidas'], 401);
         }
 
