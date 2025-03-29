@@ -56,11 +56,11 @@
 
         <!-- Campo para la contraseña -->
         <label>Contraseña:</label>
-        <input type="password" name="contraseña" required>
+        <input type="password" name="password" required autocomplete="new-password">
 
         <!-- Campo para confirmar la contraseña -->
         <label>Confirmar Contraseña:</label>
-        <input type="password" name="contraseña_confirmation" required>
+        <input type="password" name="password_confirmation" required autocomplete="new-password">
 
         <!-- Botón para enviar el formulario -->
         <button type="submit">Registrar</button>
