@@ -58,9 +58,11 @@ class AuthController extends Controller
             'correo' => $request->correo,
             'password' => Hash::make($request->password), // Se usa bcrypt() a través de Hash::make()
         ]);
+        // Verificar cómo se guardó la contraseña
+        // dd($usuario->password); // Esto mostrará la contraseña encriptada
 
         // Asignar rol con Spatie
-        $usuario->assignRole($request->role);
+        //$usuario->assignRole($request->role);
 
         return redirect()->route('login.view')->with('success', 'Usuario registrado correctamente');
     }
@@ -70,18 +72,32 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        //dd($request->all());
+        // Ver datos del request
+        // dd($request->all());
         
         $usuario = Usuario::where('documento', $request->documento)->first();
 
-        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
-            return response()->json(['error' => 'Credenciales inválidas'], 401);
+        // Verificar si se encontró el usuario
+        if (!$usuario) {
+            return response()->json(['error' => 'El usuario no existe'], 404);
+        }
+
+        //Verificar los datos del usuario
+        dd([
+            'contraseña_ingresada' => $request->password,
+            'contraseña_en_bd' => $usuario->password,
+        ]);
+
+        // Verificar la contraseña
+        if (!Hash::check(trim($request->password), trim($usuario->password))) {
+            return response()->json(['error' => 'Contraseña incorrecta'], 401);
         }
 
         $token = JWTAuth::fromUser($usuario);
 
         return $this->respondWithToken($token);
     }
+
 
     /**
      * Cierre de sesión

@@ -4,72 +4,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #4facfe;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #00c6ff;
+        }
+        p {
+            margin-top: 15px;
+        }
+        a {
+            color: #00c6ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Registro</h2>
+    <div class="container">
+        <h2>Registro</h2>
 
-    <!-- Muestra errores de validación si existen -->
-    @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+        @if ($errors->any())
+            <div class="error">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    <!-- Formulario de registro -->
-    <form action="{{ route('register') }}" method="POST">
-        @csrf
+        <form action="{{ route('register') }}" method="POST">
+            @csrf
 
-        <!-- Campo para el nombre -->
-        <label>Nombre:</label>
-        <input type="text" name="nombre" value="{{ old('name') }}" required>
+            <div class="form-group">
+                <select name="tipo_documento" required id="tipo_documento" aria-placeholder="Seleccione un tipo de documento">
+                    <option value="" disabled selected>Seleccione un tipo de documento</option>
+                    <option value="CC">Cédula de Ciudadanía</option>
+                    <option value="TI">Tarjeta de Identidad</option>
+                    <option value="CE">Cédula de Extranjería</option>
+                    <option value="PEP">Permiso Especial de Permanencia</option>
+                    <option value="PPT">Permiso de Protección Temporal</option>
+                </select>
+            </div>
 
+            <div class="form-group">
+                <input type="text" name="nombre" value="{{ old('nombre') }}" required autocomplete="off" placeholder="Nombre">
+            </div>
 
-        <!-- Campo para el número de apellido --> 
-        <label>Apellido:</label>
-        <input type="text" name="apellido"require>
+            <div class="form-group">
+                <input type="text" name="apellido" required autocomplete="off" placeholder="Apellido">
+            </div>
 
-        <!-- Campo para seleccionar el tipo de documento -->
-        <label>Tipo de Documento:</label>
-        <select name="tipo_documento" required>
-            <option value="CC">Cédula de Ciudadanía</option>
-            <option value="TI">Tarjeta de Identidad</option>
-            <option value="CE">Cédula de Extranjería</option>
-            <option value="PEP">Permiso Especial de Permanencia</option>
-            <option value="PPT">Permiso de Proteccion Temporal</option>
-        </select>
+            <div class="form-group">
+                <input type="text" name="documento" value="{{ old('documento') }}" required autocomplete="off" placeholder="Número de Documento">
+            </div>
 
-        <label for="role">Seleccionar Rol</label>
-        <select name="role" required>
-        <option value="admin">Administrador</option>
-        <option value="usuario">Usuario</option>
-        </select>
+            <div class="form-group">
+                <input type="text" name="telefono" required autocomplete="tel" placeholder="Teléfono">
+            </div>
 
-        <!-- Campo para el número de documento -->
-        <label>Número de Documento:</label>
-        <input type="text" name="documento" value="{{ old('document_number') }}" required>
+            <div class="form-group">
+                <input type="email" name="correo" value="{{ old('email') }}" required autocomplete="email" placeholder="Correo Electrónico">
+            </div>
 
-       <!-- Campo para el número de telefono --> 
-        <label>Telefono:</label>
-        <input type="text" name="telefono"require>
+            <div class="form-group">
+                <input type="password" name="password" required autocomplete="new-password" placeholder="Contraseña">
+            </div>
 
-        <!-- Campo para el email -->
-        <label>Email:</label>
-        <input type="email" name="correo" value="{{ old('email') }}" required>
+            <div class="form-group">
+                <input type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Confirmar Contraseña">
+            </div>
 
-        <!-- Campo para la contraseña -->
-        <label>Contraseña:</label>
-        <input type="password" name="password" required autocomplete="new-password">
+            <button type="submit">Registrar</button>
+        </form>
 
-        <!-- Campo para confirmar la contraseña -->
-        <label>Confirmar Contraseña:</label>
-        <input type="password" name="password_confirmation" required autocomplete="new-password">
-
-        <!-- Botón para enviar el formulario -->
-        <button type="submit">Registrar</button>
-    </form>
-
-    <!-- Enlace para iniciar sesión
+        <!-- Enlace para iniciar sesión si ya tienen cuenta -->
+        <p>¿Ya tienes cuenta? <a href="{{ route('login') }}">Iniciar sesión aquí</a></p>
+    </div>
+</body>
+</html>
+<!-- Este es el formulario de registro de usuarios. Se utiliza para crear una nueva cuenta en la aplicación. -->
+<!-- El formulario incluye campos para el tipo de documento, nombre, apellido, número de documento, teléfono, correo electrónico y contraseña. -->
+<!-- Se valida la información ingresada y se muestra un mensaje de error si hay algún problema. -->
+<!-- Al final, se proporciona un enlace para que los usuarios puedan iniciar sesión si ya tienen una cuenta. -->
+<!-- Este es el formulario de registro de usuarios. Se utiliza para crear una nueva cuenta en la aplicación. -->
