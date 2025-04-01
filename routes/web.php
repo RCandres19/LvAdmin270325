@@ -11,6 +11,7 @@ Route::get('/', function () {
 //  Rutas de autenticación (Formularios)
 Route::get('/register', [AuthController::class, 'registerForm'])->name('register.view');
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login.view');
+Route::get('/welcome', function () { return view('welcome'); })->name('welcome.view');   
 
 //  Acciones de autenticación
 Route::post('/register', [AuthController::class, 'register'])->name('register');
